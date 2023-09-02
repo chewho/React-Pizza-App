@@ -6,6 +6,11 @@ import { Categories, SortPopup, PizzaBlock } from "../components";
 import { setCategory } from "../redux/actions/filters";
 
 const categoryNames = ["Мясные", "Вегетарианские", "Гриль", "Острые", "Закрытые"];
+const sortItems = [
+  { name: "популярности", type: "popular" },
+  { name: "цене", type: "price" },
+  { name: "алфавиту", type: "alphabet" },
+];
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -19,13 +24,7 @@ const Home = () => {
     <div className="container">
       <div className="content__top">
         <Categories onClickItem={onSelectCategory} items={categoryNames} />
-        <SortPopup
-          items={[
-            { name: "популярности", type: "popular" },
-            { name: "цене", type: "price" },
-            { name: "алфавиту", type: "alphabet" },
-          ]}
-        />
+        <SortPopup items={sortItems} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
