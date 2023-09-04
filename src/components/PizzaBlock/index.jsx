@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
-const PizzaBlock = ({ name, imageUrl, price, types, sizes }) => {
+const PizzaBlock = ({ name, imageUrl, price, types, sizes, isLoading }) => {
   const availableTypes = ["тонкое", "традиционное"];
-  const [activeType, setActiveType] = React.useState(types[0]);
-
   const availableSizes = [26, 30, 40];
+
+  const [activeType, setActiveType] = React.useState(types[0]);
   const [activeSize, setActiveSize] = React.useState(sizes[0]);
 
   const onSelectType = (index) => {
