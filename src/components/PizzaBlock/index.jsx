@@ -4,12 +4,12 @@ import Button from "../Button";
 
 import classNames from "classnames";
 
-const PizzaBlock = ({ name, imageUrl, price, types, sizes, isLoading }) => {
+const PizzaBlock = ({ id, name, imageUrl, price, types, sizes, onClickAddPizza }) => {
   const availableTypes = ["тонкое", "традиционное"];
   const availableSizes = [26, 30, 40];
 
   const [activeType, setActiveType] = React.useState(types[0]);
-  const [activeSize, setActiveSize] = React.useState(sizes[0]);
+  const [activeSize, setActiveSize] = React.useState(0);
 
   const onSelectType = (index) => {
     setActiveType(index);
@@ -17,6 +17,18 @@ const PizzaBlock = ({ name, imageUrl, price, types, sizes, isLoading }) => {
 
   const onSelectSize = (index) => {
     setActiveSize(index);
+  };
+
+  const onAddPizza = () => {
+    const obj = {
+      id,
+      name,
+      imageUrl,
+      price,
+      size: availableSizes[activeSize],
+      type: availableTypes[activeType],
+    };
+    onClickAddPizza(obj);
   };
 
   return (
@@ -55,7 +67,7 @@ const PizzaBlock = ({ name, imageUrl, price, types, sizes, isLoading }) => {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <Button className="button--add" outline>
+        <Button onClick={onAddPizza} className="button--add" outline>
           <svg
             width="12"
             height="12"
