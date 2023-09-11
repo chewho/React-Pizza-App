@@ -1,9 +1,10 @@
 import React from "react";
-import { CartItem } from "../components";
 import { useDispatch, useSelector } from "react-redux";
-import cartEmptyImage from "../assets/img/empty-cart.png";
+import { Link } from "react-router-dom";
 
-import { clearCart } from "../redux/actions/cart";
+import { CartItem } from "../components";
+import { clearCart, removeCartItem } from "../redux/actions/cart";
+import cartEmptyImage from "../assets/img/empty-cart.png";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,12 @@ const Cart = () => {
   const onClearCart = () => {
     if (window.confirm("Вы действительно хотите очистить корзину?")) {
       dispatch(clearCart());
+    }
+  };
+
+  const onRemoveItem = (id) => {
+    if (window.confirm("Вы действительно хотите удалить?")) {
+      dispatch(removeCartItem(id));
     }
   };
 
@@ -101,11 +108,13 @@ const Cart = () => {
             <div className="content__items">
               {addedPizzas.map((obj) => (
                 <CartItem
+                  id={obj.id}
                   name={obj.name}
                   type={obj.type}
                   size={obj.size}
                   totalPrice={items[obj.id].totalPrice}
                   totalCount={items[obj.id].items.length}
+                  onRemove={onRemoveItem}
                 />
               ))}
             </div>
@@ -137,8 +146,9 @@ const Cart = () => {
                       strokeLinejoin="round"
                     />
                   </svg>
-
-                  <span>Вернуться назад</span>
+                  <Link to="/">
+                    <span>Вернуться назад</span>
+                  </Link>
                 </a>
                 <div className="button pay-btn">
                   <span>Оплатить сейчас</span>
@@ -157,9 +167,9 @@ const Cart = () => {
               Для того, чтобы заказать пиццу, перейди на главную страницу.
             </p>
             <img src={cartEmptyImage} alt="Empty cart" />
-            <a href="/" className="button button--black">
+            <Link to="/" className="button button--black">
               <span>Вернуться назад</span>
-            </a>
+            </Link>
           </div>
         )}
       </div>
