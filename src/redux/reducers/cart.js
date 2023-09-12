@@ -3,7 +3,22 @@ const initialState = {
   totalPrice: 0,
   totalCount: 0,
 };
+
 const getTotalPrice = (arr) => arr.reduce((sum, obj) => obj.price + sum, 0);
+
+const _get = (obj, path) => {
+  const [firstKey, ...keys] = path.split(".");
+  return keys.reduce((val, key) => {
+    return val[key];
+  }, obj[firstKey]);
+};
+
+const getTotalSum = (obj, path) => {
+  return Object.values(obj).reduce((sum, obj) => {
+    const value = _get(obj, path);
+    return sum + value;
+  }, 0);
+};
 
 const cart = (state = initialState, action) => {
   switch (action.type) {
@@ -20,14 +35,13 @@ const cart = (state = initialState, action) => {
         },
       };
 
-      const items = Object.values(newItems).map((obj) => obj.items);
-      const allPizzas = [].concat.apply([], items);
-      const totalPrice = getTotalPrice(allPizzas);
+      const totalCount = getTotalSum(newItems, "items.length");
+      const totalPrice = getTotalSum(newItems, "totalPrice");
 
       return {
         ...state,
         items: newItems,
-        totalCount: allPizzas.length,
+        totalCount,
         totalPrice,
       };
     }
